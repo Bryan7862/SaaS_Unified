@@ -1,12 +1,19 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { HotelRoom } from '../../hotel-rooms/entities/hotel-room.entity';
+import { HotelGuest } from '../../hotel-guests/entities/hotel-guest.entity';
+
+export enum BookingStatus {
+    PENDING = 'PENDING',
+    CONFIRMED = 'CONFIRMED',
+    CHECKED_IN = 'CHECKED_IN',
+    CHECKED_OUT = 'CHECKED_OUT',
+    CANCELLED = 'CANCELLED'
+}
 
 @Entity('hotel_bookings')
 export class HotelBooking {
     @PrimaryGeneratedColumn('uuid')
     id: string;
-
-    @Column()
-    guestName: string; // Temporary, will link to HotelGuest later
 
     @Column({ type: 'timestamp' })
     checkInDate: Date;
@@ -14,12 +21,26 @@ export class HotelBooking {
     @Column({ type: 'timestamp' })
     checkOutDate: Date;
 
-    @Column()
-    status: string; // CONFIRMED, CHECKED_IN, CHECKED_OUT, CANCELLED
-
-    @Column()
+    @Column('decimal', { precision: 10, scale: 2 })
     totalAmount: number;
 
+    @Column({
+        type: 'simple-enum',
+        enum: BookingStatus,
+        default: BookingStatus.PENDING
+    })
+    status: BookingStatus;
+
+    // Relations
+    @ManyToOne(() => HotelRoom, { nullable: false })
+    @JoinColumn({ name: 'room_id' })
+    room: HotelRoom;
+
+    @ManyToOne(() => HotelGuest, { nullable: false })
+    @JoinColumn({ name: 'guest_id' })
+    guest: HotelGuest;
+
+    // Multi-tenancy
     @Column()
     companyId: string;
 
