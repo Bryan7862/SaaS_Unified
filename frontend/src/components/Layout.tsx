@@ -130,6 +130,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             subItems: [
                 { label: 'Habitaciones', path: '/hotel/rooms' },
                 { label: 'Reservas', path: '/hotel/bookings' },
+                { label: 'Huéspedes', path: '/hotel/guests' },
             ]
         },
         {
