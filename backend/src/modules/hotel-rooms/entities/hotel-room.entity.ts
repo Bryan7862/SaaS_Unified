@@ -2,6 +2,14 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 import { RoomCategory } from './room-category.entity';
 import { HotelFloor } from './hotel-floor.entity';
 
+export enum RoomStatus {
+    AVAILABLE = 'AVAILABLE',
+    OCCUPIED = 'OCCUPIED',
+    CLEANING = 'CLEANING',
+    MAINTENANCE = 'MAINTENANCE',
+    DIRTY = 'DIRTY'
+}
+
 @Entity('hotel_rooms')
 export class HotelRoom {
     @PrimaryGeneratedColumn('uuid')
