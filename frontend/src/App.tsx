@@ -25,6 +25,8 @@ import { ProductsPage } from './modules/inventory/pages/ProductsPage';
 import { HotelRoomsPage } from './modules/hotel-rooms/pages/HotelRoomsPage';
 import { HotelBookingsPage } from './modules/hotel-bookings/pages/HotelBookingsPage';
 import { HotelGuestsPage } from './modules/hotel-guests/pages/HotelGuestsPage';
+import { HotelHousekeepingPage } from './modules/hotel-housekeeping/pages/HotelHousekeepingPage';
+import { StaffAttendancePage } from './modules/hotel-attendance/pages/StaffAttendancePage';
 import { ReportsPage } from './modules/reports/pages/ReportsPage';
 import { InventoryReportPage } from './modules/reports/pages/InventoryReportPage';
 import { FinanceReportPage } from './modules/reports/pages/FinanceReportPage';
@@ -84,6 +86,8 @@ function App() {
                                                                 <Route path="/hotel/rooms" element={<HotelRoomsPage />} />
                                                                 <Route path="/hotel/bookings" element={<HotelBookingsPage />} />
                                                                 <Route path="/hotel/guests" element={<HotelGuestsPage />} />
+                                                                <Route path="/hotel/housekeeping" element={<HotelHousekeepingPage />} />
+                                                                <Route path="/hotel/attendance" element={<StaffAttendancePage />} />
 
                                                                 <Route path="/clients/new" element={<ClientCreatePage />} />
                                                                 <Route path="/clients/history" element={<ClientHistoryPage />} />
