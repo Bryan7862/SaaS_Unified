@@ -14,7 +14,8 @@ import {
     Truck,
     BarChart3,
     FileText,
-    UserCog
+    UserCog,
+    Bed
 } from 'lucide-react';
 
 import { Toaster } from 'react-hot-toast';
@@ -121,6 +122,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 { label: 'Nueva Venta (POS)', path: '/sales/pos' },
                 { label: 'Historial de Ventas', path: '/sales/history' },
                 { label: 'Devoluciones', path: '/sales/returns' },
+            ]
+        },
+        {
+            label: 'Gestión Hotelera',
+            icon: Bed,
+            subItems: [
+                { label: 'Habitaciones', path: '/hotel/rooms' },
+                { label: 'Reservas', path: '/hotel/bookings' },
             ]
         },
         {

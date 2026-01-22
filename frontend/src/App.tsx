@@ -22,6 +22,8 @@ import { SocketProvider } from './context/SocketContext';
 import { SalesPOSPage } from './modules/sales/pages/SalesPOSPage';
 import { ClientCreatePage } from './modules/clients/pages/ClientCreatePage';
 import { ProductsPage } from './modules/inventory/pages/ProductsPage';
+import { HotelRoomsPage } from './modules/hotel-rooms/pages/HotelRoomsPage';
+import { HotelBookingsPage } from './modules/hotel-bookings/pages/HotelBookingsPage';
 import { ReportsPage } from './modules/reports/pages/ReportsPage';
 import { InventoryReportPage } from './modules/reports/pages/InventoryReportPage';
 import { FinanceReportPage } from './modules/reports/pages/FinanceReportPage';
@@ -76,6 +78,10 @@ function App() {
                                                                 <Route path="/inventory/adjustments" element={<StockAdjustmentsPage />} />
                                                                 <Route path="/inventory/alerts" element={<StockAlertsPage />} />
                                                                 <Route path="/inventory/*" element={<ConstructionPage title="Gestión de Inventario" />} />
+
+                                                                {/* Hotel Management */}
+                                                                <Route path="/hotel/rooms" element={<HotelRoomsPage />} />
+                                                                <Route path="/hotel/bookings" element={<HotelBookingsPage />} />
 
                                                                 <Route path="/clients/new" element={<ClientCreatePage />} />
                                                                 <Route path="/clients/history" element={<ClientHistoryPage />} />
