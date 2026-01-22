@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ClipboardList, ArrowUp, ArrowDown, Search } from 'lucide-react';
+import { ArrowUp, ArrowDown, Search } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useInventory } from '../context/InventoryContext';
 

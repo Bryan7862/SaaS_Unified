@@ -27,7 +27,11 @@ export const DashboardPage = () => {
                 getTransactions() // This returns array of Transaction
             ]);
             setKpis(kpiData);
-            setTransactions(txData.slice(0, 5)); // Take only last 5
+            if (Array.isArray(txData)) {
+                setTransactions(txData.slice(0, 5));
+            } else if (txData && Array.isArray((txData as any).data)) {
+                setTransactions((txData as any).data.slice(0, 5));
+            }
         } catch (error) {
             console.error(error);
             toast.error('Error al cargar datos del dashboard');
