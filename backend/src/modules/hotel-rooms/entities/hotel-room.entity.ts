@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { RoomCategory } from './room-category.entity';
+import { HotelFloor } from './hotel-floor.entity';
 
 @Entity('hotel_rooms')
 export class HotelRoom {
@@ -7,15 +8,16 @@ export class HotelRoom {
     id: string;
 
     @Column()
-    number: string; // '101', '102'
+    number: string; // '101', '102' - Unique per companyId
 
-    @Column({ nullable: true })
-    floor: number; // 1, 2, 3
+    @ManyToOne(() => HotelFloor, (floor) => floor.rooms, { nullable: false, onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'floor_id' })
+    floor: HotelFloor;
 
     @Column({ default: 'AVAILABLE' })
     status: string; // AVAILABLE, OCCUPIED, DIRTY, MAINTENANCE
 
-    @ManyToOne(() => RoomCategory, { nullable: true })
+    @ManyToOne(() => RoomCategory, { nullable: false })
     @JoinColumn({ name: 'category_id' })
     category: RoomCategory;
 
