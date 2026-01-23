@@ -132,73 +132,73 @@ export function Layout({ children }: { children: React.ReactNode }) {
     const navGroups = [
         {
             label: 'Panel de Control',
-            path: '/',
+            path: '/dashboard',
             icon: LayoutDashboard
         },
         {
             label: 'Ventas',
             icon: ShoppingCart,
             subItems: [
-                { label: 'Nueva Venta (POS)', path: '/sales/pos' },
-                { label: 'Historial de Ventas', path: '/sales/history' },
-                { label: 'Devoluciones', path: '/sales/returns' },
+                { label: 'Nueva Venta (POS)', path: '/dashboard/sales/pos' },
+                { label: 'Historial de Ventas', path: '/dashboard/sales/history' },
+                { label: 'Devoluciones', path: '/dashboard/sales/returns' },
             ]
         },
         {
             label: 'Inventario',
             icon: Package,
             subItems: [
-                { label: 'Productos/Servicios', path: '/inventory/products' },
-                { label: 'Categorías', path: '/inventory/categories' },
-                { label: 'Ajustes de Stock', path: '/inventory/adjustments' },
-                { label: 'Alertas de Stock', path: '/inventory/alerts' },
+                { label: 'Productos/Servicios', path: '/dashboard/inventory/products' },
+                { label: 'Categorías', path: '/dashboard/inventory/categories' },
+                { label: 'Ajustes de Stock', path: '/dashboard/inventory/adjustments' },
+                { label: 'Alertas de Stock', path: '/dashboard/inventory/alerts' },
             ]
         },
         {
             label: 'Clientes',
             icon: Users,
             subItems: [
-                { label: 'Lista de Clientes', path: '/clients' },
-                { label: 'Nuevo Cliente', path: '/clients/new' },
-                { label: 'Historial de Compras', path: '/clients/history' },
+                { label: 'Lista de Clientes', path: '/dashboard/clients' },
+                { label: 'Nuevo Cliente', path: '/dashboard/clients/new' },
+                { label: 'Historial de Compras', path: '/dashboard/clients/history' },
             ]
         },
         {
             label: 'Proveedores',
             icon: Truck, // Optional year 1
-            path: '/suppliers'
+            path: '/dashboard/suppliers'
         },
         {
             label: 'Reportes',
             icon: BarChart3,
             subItems: [
-                { label: 'Ventas', path: '/reports/sales' },
-                { label: 'Inventario', path: '/reports/inventory' },
-                { label: 'Finanzas', path: '/reports/finance' },
-                { label: 'Clientes Frecuentes', path: '/reports/clients' },
+                { label: 'Ventas', path: '/dashboard/reports/sales' },
+                { label: 'Inventario', path: '/dashboard/reports/inventory' },
+                { label: 'Finanzas', path: '/dashboard/reports/finance' },
+                { label: 'Clientes Frecuentes', path: '/dashboard/reports/clients' },
             ]
         },
         {
             label: 'Facturación',
             icon: FileText,
             subItems: [
-                { label: 'Boletas/Facturas', path: '/billing/invoices' },
-                { label: 'Configurar SUNAT', path: '/billing/config' },
-                { label: 'Historial', path: '/billing/history' },
+                { label: 'Boletas/Facturas', path: '/dashboard/billing/invoices' },
+                { label: 'Configurar SUNAT', path: '/dashboard/billing/config' },
+                { label: 'Historial', path: '/dashboard/billing/history' },
             ]
         },
     ];
 
     const adminItems = [
-        { label: 'Miembros', path: '/users', icon: UserCog },
+        { label: 'Miembros', path: '/dashboard/users', icon: UserCog },
     ];
 
     const configItems = [
-        { label: 'General', path: '/settings/general' },
-        { label: 'Mi Organización', path: '/organizations' },
-        { label: 'Facturación', path: '/settings/billing' },
-        { label: 'Métodos de Pago', path: '/settings/payments' },
-        { label: 'Mi Suscripción', path: '/pricing' },
+        { label: 'General', path: '/dashboard/settings/general' },
+        { label: 'Mi Organización', path: '/dashboard/organizations' },
+        { label: 'Facturación', path: '/dashboard/settings/billing' },
+        { label: 'Métodos de Pago', path: '/dashboard/settings/payments' },
+        { label: 'Mi Suscripción', path: '/dashboard/pricing' },
     ];
 
     return (
@@ -373,10 +373,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
                     </div>
 
                     <Link
-                        to="/trash"
+                        to="/dashboard/trash"
                         className={`
                             flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all
-                            ${location.pathname === '/trash'
+                            ${location.pathname === '/dashboard/trash'
                                 ? 'bg-[var(--primary)] text-white shadow-sm'
                                 : 'text-[var(--muted)] hover:bg-[var(--bg-primary)] hover:text-[var(--text)]'
                             }
@@ -391,7 +391,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 {/* 3. Footer Section (Bottom) */}
                 <div className="p-4 space-y-1">
                     <Link
-                        to="/profile"
+                        to="/dashboard/profile"
                         className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-muted hover:bg-background hover:text-text transition-all"
                     >
                         {/* Using Users icon for profile as requested in menu structure "Mi Perfil" was separate */}
