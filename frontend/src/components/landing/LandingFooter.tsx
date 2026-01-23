@@ -5,15 +5,18 @@ const footerLinks = {
         { name: 'Características', href: '#beneficios' },
         { name: 'Precios', href: '#precios' },
         { name: 'Integraciones', href: '#' },
+        { name: 'Actualizaciones', href: '#' },
     ],
-    compañia: [
+    empresa: [
         { name: 'Sobre Nosotros', href: '#' },
         { name: 'Blog', href: '#' },
         { name: 'Carreras', href: '#' },
+        { name: 'Contacto', href: '#' },
     ],
     legal: [
         { name: 'Privacidad', href: '#' },
         { name: 'Términos', href: '#' },
+        { name: 'Cookies', href: '#' },
     ],
 };
 
@@ -31,13 +34,13 @@ export const LandingFooter = () => {
                             <span className="text-lg font-bold text-white">Nexus ERP</span>
                         </div>
                         <p className="text-sm text-gray-500 leading-relaxed">
-                            Plataforma de gestión integral para negocios modernos.
+                            La plataforma ERP que transforma la gestión de tu negocio.
                         </p>
                     </div>
 
                     {/* Producto */}
                     <div>
-                        <h4 className="text-sm font-semibold text-white mb-4">Producto</h4>
+                        <h4 className="text-sm font-semibold text-white mb-4 uppercase tracking-wider">Producto</h4>
                         <ul className="space-y-3">
                             {footerLinks.producto.map((link, i) => (
                                 <li key={i}>
@@ -49,11 +52,11 @@ export const LandingFooter = () => {
                         </ul>
                     </div>
 
-                    {/* Compañía */}
+                    {/* Empresa */}
                     <div>
-                        <h4 className="text-sm font-semibold text-white mb-4">Compañía</h4>
+                        <h4 className="text-sm font-semibold text-white mb-4 uppercase tracking-wider">Empresa</h4>
                         <ul className="space-y-3">
-                            {footerLinks.compañia.map((link, i) => (
+                            {footerLinks.empresa.map((link, i) => (
                                 <li key={i}>
                                     <a href={link.href} className="text-sm text-gray-500 hover:text-white transition-colors">
                                         {link.name}
@@ -65,7 +68,7 @@ export const LandingFooter = () => {
 
                     {/* Legal */}
                     <div>
-                        <h4 className="text-sm font-semibold text-white mb-4">Legal</h4>
+                        <h4 className="text-sm font-semibold text-white mb-4 uppercase tracking-wider">Legal</h4>
                         <ul className="space-y-3">
                             {footerLinks.legal.map((link, i) => (
                                 <li key={i}>
