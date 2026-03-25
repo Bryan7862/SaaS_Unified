@@ -3,6 +3,7 @@ import { HotelGuestsService } from './hotel-guests.service';
 import { CreateGuestDto } from './dto/create-guest.dto';
 import { UpdateGuestDto } from './dto/update-guest.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { ActiveCompanyId } from '../../common/decorators/active-company-id.decorator';
 
 @Controller('hotel-guests')
 @UseGuards(JwtAuthGuard)
@@ -10,14 +11,12 @@ export class HotelGuestsController {
     constructor(private readonly hotelGuestsService: HotelGuestsService) { }
 
     @Post()
-    create(@Body() createGuestDto: CreateGuestDto, @Req() req: any) {
-        const companyId = req.user.companyId;
+    create(@Body() createGuestDto: CreateGuestDto, @ActiveCompanyId() companyId: string) {
         return this.hotelGuestsService.registerGuest(companyId, createGuestDto);
     }
 
     @Get()
-    findAll(@Req() req: any, @Query('documentNumber') documentNumber?: string) {
-        const companyId = req.user.companyId;
+    findAll(@ActiveCompanyId() companyId: string, @Query('documentNumber') documentNumber?: string) {
         if (documentNumber) {
             return this.hotelGuestsService.findGuestByDocumentNumber(companyId, documentNumber);
         }
@@ -25,14 +24,12 @@ export class HotelGuestsController {
     }
 
     @Get(':id')
-    findOne(@Param('id') id: string, @Req() req: any) {
-        const companyId = req.user.companyId;
+    findOne(@Param('id') id: string, @ActiveCompanyId() companyId: string) {
         return this.hotelGuestsService.findOne(companyId, id);
     }
 
     @Put(':id')
-    update(@Param('id') id: string, @Body() updateGuestDto: UpdateGuestDto, @Req() req: any) {
-        const companyId = req.user.companyId;
+    update(@Param('id') id: string, @Body() updateGuestDto: UpdateGuestDto, @ActiveCompanyId() companyId: string) {
         return this.hotelGuestsService.updateGuestContactInfo(companyId, id, updateGuestDto);
     }
 }
