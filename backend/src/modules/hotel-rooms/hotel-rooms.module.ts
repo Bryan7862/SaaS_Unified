@@ -6,8 +6,10 @@ import { HotelRoom } from './entities/hotel-room.entity';
 import { RoomCategory } from './entities/room-category.entity';
 import { HotelFloor } from './entities/hotel-floor.entity';
 
+import { HotelBooking } from '../hotel-bookings/entities/hotel-booking.entity';
+
 @Module({
-    imports: [TypeOrmModule.forFeature([HotelRoom, RoomCategory, HotelFloor])],
+    imports: [TypeOrmModule.forFeature([HotelRoom, RoomCategory, HotelFloor, HotelBooking])],
     controllers: [HotelRoomsController],
     providers: [HotelRoomsService],
     exports: [HotelRoomsService],
