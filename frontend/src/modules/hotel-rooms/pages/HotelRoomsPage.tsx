@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Plus, LayoutGrid, Bed } from 'lucide-react';
-import { getFloors, createFloor, getCategories, getRooms, createRoom } from '../api';
+import { Plus, LayoutGrid, Bed, Trash2 } from 'lucide-react';
+import { getFloors, createFloor, getCategories, getRooms, createRoom, archiveFloor, archiveRoom } from '../api';
 import { notify } from '../../../lib/notify';
 
 export const HotelRoomsPage = () => {
+    // ... (Existing state initialization)
     const [activeTab, setActiveTab] = useState<'rooms' | 'floors'>('rooms');
     const [isLoading, setIsLoading] = useState(true);
 
@@ -51,10 +52,37 @@ export const HotelRoomsPage = () => {
             // Form is always visible, no need to hide
             setNewFloor({ number: '', description: '' });
             loadData();
-        } catch (error) {
-            notify.error('Error al crear piso');
+        } catch (error: any) {
+            if (error.response?.status === 409) {
+                notify.error('El número de piso ya está registrado');
+            } else {
+                notify.error('Error al crear piso');
+            }
         }
     };
+
+    const handleArchiveFloor = async (id: string, roomCount: number) => {
+        if (roomCount > 0) {
+            // Backend also validates this, but good for UI feedback
+            if (!confirm('Este piso tiene habitaciones. ¿Estás seguro de que deseas archivarlo (si no están ocupadas)?')) return;
+        } else {
+            if (!confirm('¿Estás seguro de que deseas archivar este piso?')) return;
+        }
+
+        try {
+            await archiveFloor(id);
+            notify.success('Piso archivado correctamente');
+            loadData();
+        } catch (error: any) {
+            if (error.response?.status === 409) {
+                notify.error('No se puede archivar: tiene habitaciones ocupadas');
+            } else {
+                notify.error('Error al archivar piso');
+            }
+        }
+    };
+
+    // ... (Existing handleCreateRoom)
 
     const handleCreateRoom = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -65,7 +93,6 @@ export const HotelRoomsPage = () => {
             setNewRoom({ number: '', floorId: '', categoryId: '', status: 'AVAILABLE' });
             loadData();
         } catch (error: any) {
-            // Handle backend conflict errors specifically if possible
             if (error.response?.status === 409) {
                 notify.error('El número de habitación ya existe');
             } else {
@@ -73,6 +100,31 @@ export const HotelRoomsPage = () => {
             }
         }
     };
+
+    // ... (Existing handleCreateRoom)
+
+    const handleArchiveRoom = async (id: string, roomNumber: string) => {
+        if (!confirm(`¿Estás seguro de que deseas archivar la habitación ${roomNumber}?`)) {
+            return;
+        }
+
+        try {
+            await archiveRoom(id);
+            notify.success('Habitación archivada correctamente');
+            loadData();
+        } catch (error: any) {
+            if (error.response?.status === 409) {
+                notify.error('No se puede archivar: tiene reservas activas o futuras');
+            } else {
+                notify.error('Error al archivar habitación');
+            }
+        }
+    };
+
+    // ... (Render Helpers)
+
+    // ... (Inside return statement, activeTab === 'floors')
+
 
     // --- RENDER HELPERS ---
 
@@ -178,8 +230,15 @@ export const HotelRoomsPage = () => {
                                                             {room.status}
                                                         </span>
                                                     </td>
-                                                    <td className="py-3 px-4 text-right text-sm text-blue-600 cursor-pointer hover:underline">
-                                                        Editar
+                                                    <td className="py-3 px-4 text-right text-sm flex justify-end items-center gap-3">
+                                                        <span className="text-blue-600 cursor-pointer hover:underline">Editar</span>
+                                                        <button
+                                                            onClick={() => handleArchiveRoom(room.id, room.number)}
+                                                            className="text-gray-400 hover:text-black transition-colors p-1"
+                                                            title="Archivar Habitación"
+                                                        >
+                                                            <Trash2 size={16} />
+                                                        </button>
                                                     </td>
                                                 </tr>
                                             ))}
@@ -208,13 +267,22 @@ export const HotelRoomsPage = () => {
                             </h3>
                             <div className="space-y-3">
                                 {floors.map(floor => (
-                                    <div key={floor.id} className="flex justify-between items-center p-3 border border-gray-100 rounded bg-gray-50">
+                                    <div key={floor.id} className="flex justify-between items-center p-3 border border-gray-100 rounded bg-gray-50 group">
                                         <div>
                                             <span className="font-bold text-gray-900 block">Piso {floor.number}</span>
                                             <span className="text-sm text-gray-500">{floor.description || 'Sin descripción'}</span>
                                         </div>
-                                        <div className="text-xs bg-gray-200 px-2 py-1 rounded text-gray-600">
-                                            {floor.rooms?.length || 0} Habs
+                                        <div className="flex items-center gap-3">
+                                            <div className="text-xs bg-gray-200 px-2 py-1 rounded text-gray-600">
+                                                {floor.rooms?.length || 0} Habs
+                                            </div>
+                                            <button
+                                                onClick={() => handleArchiveFloor(floor.id, floor.rooms?.length || 0)}
+                                                className="text-gray-400 hover:text-black transition-colors p-1"
+                                                title="Archivar Piso"
+                                            >
+                                                <Trash2 size={16} />
+                                            </button>
                                         </div>
                                     </div>
                                 ))}
