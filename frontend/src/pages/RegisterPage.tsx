@@ -25,7 +25,12 @@ export function RegisterPage() {
                 {
                     loading: 'Creando cuenta...',
                     success: '¡Cuenta creada! Redirigiendo...',
-                    error: 'Error al crear la cuenta',
+                    error: (err: any) => {
+                        const msg = err?.response?.data?.message;
+                        if (Array.isArray(msg)) return msg[0];
+                        if (typeof msg === 'string') return msg;
+                        return 'Error al crear la cuenta';
+                    },
                 }
             );
             setTimeout(() => navigate('/login'), 1500);
@@ -205,8 +210,8 @@ export function RegisterPage() {
                                     <input
                                         type="password"
                                         required
-                                        minLength={6}
-                                        placeholder="Mínimo 6 caracteres"
+                                        minLength={8}
+                                        placeholder="Min. 8 caracteres, números y símbolos (@$!%*?&)"
                                         value={formData.password}
                                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                                         className="w-full pl-12 pr-4 py-3.5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-white focus:border-transparent transition-all"
