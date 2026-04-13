@@ -66,9 +66,14 @@ api.interceptors.response.use(
             notify.error('Error interno del servidor. Inténtalo más tarde.');
         } else if (error.code === 'ERR_NETWORK') {
             notify.error('Error de conexión. Verifica tu internet.');
-        } else if (serverMessage && typeof serverMessage === 'string') {
-            // If backend sends a specific friendly message, show it
-            notify.error(serverMessage);
+        } else if (serverMessage) {
+            if (typeof serverMessage === 'string') {
+                notify.error(serverMessage);
+            } else if (Array.isArray(serverMessage) && serverMessage.length > 0) {
+                notify.error(serverMessage[0]);
+            } else {
+                notify.error('Ocurrió un error inesperado.');
+            }
         } else {
             notify.error('Ocurrió un error inesperado.');
         }

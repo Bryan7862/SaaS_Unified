@@ -34,7 +34,8 @@ async function bootstrap() {
 
     // Boot
     const port = configService.get('PORT') || 3000;
-    await app.listen(port);
+    const host = configService.get('HOST') || '0.0.0.0';
+    await app.listen(port, host);
     logger.log(`🚀 Application is running on: ${await app.getUrl()}`);
 }
 bootstrap();

@@ -20,17 +20,12 @@ export function RegisterPage() {
         setLoading(true);
 
         try {
-            await notify.promise(
-                api.post('/admin/auth/register', formData),
-                {
-                    loading: 'Creando cuenta...',
-                    success: '¡Cuenta creada! Redirigiendo...',
-                    error: 'Error al crear la cuenta',
-                }
-            );
+            await api.post('/admin/auth/register', formData);
+            notify.success('¡Cuenta creada! Redirigiendo...');
             setTimeout(() => navigate('/login'), 1500);
         } catch (err: any) {
             console.error('Registration failed', err);
+            // Notifications are handled globally by the api interceptor in src/lib/api.ts
         } finally {
             setLoading(false);
         }
