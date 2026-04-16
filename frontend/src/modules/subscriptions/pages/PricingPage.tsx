@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getCurrentSubscription, createPaymentOrder, Subscription } from '../api';
+import { getCurrentSubscription, createPaymentOrder, confirmPayment, Subscription } from '../api';
 import { SubscriptionConfirmModal } from '../components/SubscriptionConfirmModal';
 
 const PLANS = [
@@ -99,6 +99,105 @@ export const PricingPage = () => {
 
         try {
             const orderInfo = await createPaymentOrder(planCode);
+
+            // CHECK FOR MOCK MODE (Bypass Culqi Popup)
+            if (orderInfo.orderId.startsWith('ord_mock_')) {
+                console.log('🗝️ Mock Order Detected. Bypassing Culqi Popup...');
+
+                // Simulate processing delay for realism
+                setTimeout(async () => {
+                    try {
+                        // Call backend to confirm/activate subscription directly
+                        // Using the Mock ID as the "chargeId" since standard flow expects one
+                        await confirmPayment(planCode, orderInfo.orderId);
+
+                        // Show success and reload
+                        alert('¡Modo de Prueba Exitoso! Tu suscripción ha sido activada.');
+                        window.location.reload();
+                    } catch (e: any) {
+                        console.error(e);
+                        alert('Error al activar suscripción simulada: ' + (e.response?.data?.message || e.message));
+                        setProcessing(null);
+                    }
+                }, 1500);
+                return;
+            }
+
+            // CHECK FOR MOCK MODE (Bypass Culqi Popup)
+            if (orderInfo.orderId.startsWith('ord_mock_')) {
+                console.log('🗝️ Mock Order Detected. Bypassing Culqi Popup...');
+
+                // Simulate processing delay for realism
+                setTimeout(async () => {
+                    try {
+                        // Call backend to confirm/activate subscription directly
+                        // We need to import confirmPayment from api.ts first
+                        // But wait, the current flow relies on window.culqi callback calling the reload/alert.
+                        // Let's mimic that behavior.
+
+                        // We need to call the confirm endpoint.
+                        // Since PricingPage doesn't have direct access to confirmPayment (it's in api.ts but maybe not exported or used here directly? No, createPaymentOrder is imported).
+                        // I will assume there is a confirmPayment or similar in api.ts. Let me check api.ts first to be sure.
+
+                        // Actually, looking at imports: import { getCurrentSubscription, createPaymentOrder, confirmPayment, Subscription } from '../api';
+                        // I need to import confirmPayment.
+
+                        // Let's assume I add confirmPayment to imports.
+                        // For now, I'll alert and reload, but really we need to call the backend activation.
+
+                        // Wait, the real Culqi flow involves a webhook or a collection of token.
+                        // In mock mode, we don't have a token.
+                        // The backend 'confirm' endpoint expects { planCode, chargeId }.
+                        // But in mock creation we got an orderId.
+
+                        // Let's look at the backend confirm controller again.
+                        // It takes 'chargeId'.
+                        // In real flow, Culqi creates a Token -> We send Token -> Backend creates Charge -> Backend activates.
+                        // OR Culqi Popup creates Charge directly? 
+
+                        // Let's re-read backend controller `confirmPayment`:
+                        // It takes `chargeId`.
+                        // It calls `culqiService.getCharge(chargeId)`.
+
+                        // So the frontend usually sends a generic "culqi token" to backend, backend charges it, gets charge ID, then activates.
+                        // OR does frontend get the charge ID?
+
+                        // Let's look at `window.culqi` callback in PricingPage:
+                        /*
+                        window.culqi = () => {
+                            if (window.Culqi.token) {
+                                // It gets a TOKEN.
+                                // But PricingPage currently ONLY alerts and reloads: 
+                                // alert('¡Pago en proceso! Tu suscripción se activará en breve.');
+                                // window.location.reload();
+                                
+                                // This means the ACTUAL activation call is missing from the frontend code shown?
+                                // OR the backend webhook handles it?
+                                // If backend webhook handles it, then proper flow is:
+                                // 1. Frontend: Culqi Token -> 2. POST /payments/charge (Send Token) -> 3. Backend: Creates Charge -> 4. Backend: Activates.
+                            }
+                        */
+
+                        // The `PricingPage.tsx` I read earlier (lines 55-65) DOES NOT CALL THE BACKEND to confirm.
+                        // It just reloads. This implies there's missing logic. 
+                        // The user said "before it gave me access". 
+                        // Maybe I missed where the token is sent to backend?
+
+                        // Ah, I see `PaymentsController` has `@Post('confirm')` taking `chargeId`.
+                        // But the Frontend `window.culqi` callback doesn't call it.
+
+                        // Wait, if `PricingPage.tsx` relies on Webhooks, then reloading page *might* show the new plan IF the webhook was fast enough.
+                        // But for Mock Mode, we don't have webhooks from Culqi.
+
+                        // I need to implement the call to backend to "Exchange Token for Subscription".
+
+                        // Let's look at `api.ts` to see what functions are available.
+                    } catch (e) {
+                        console.error(e);
+                    }
+                }, 1000);
+                return;
+            }
 
             if (window.Culqi) {
                 window.Culqi.publicKey = orderInfo.publicKey;

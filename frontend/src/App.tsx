@@ -5,6 +5,11 @@ import { RequireAuth } from './components/RequireAuth';
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
 import { SocketProvider } from './context/SocketContext';
+import { HotelRoomsPage } from './modules/hotel-rooms/pages/HotelRoomsPage';
+import { HotelBookingsPage } from './modules/hotel-bookings/pages/HotelBookingsPage';
+import { HotelGuestsPage } from './modules/hotel-guests/pages/HotelGuestsPage';
+import { HotelHousekeepingPage } from './modules/hotel-housekeeping/pages/HotelHousekeepingPage';
+import { StaffAttendancePage } from './modules/hotel-attendance/pages/StaffAttendancePage';
 import { InventoryProvider } from './modules/inventory/context/InventoryContext';
 import { ClientsProvider } from './modules/clients/context/ClientsContext';
 import { SuppliersProvider } from './modules/suppliers/context/SuppliersContext';
@@ -91,6 +96,13 @@ function App() {
                                                                         <Route path="/sales/history" element={<SalesHistoryPage />} />
                                                                         <Route path="/sales/returns" element={<ReturnsPage />} />
                                                                         <Route path="/sales/*" element={<ConstructionPage title="Ventas" />} />
+
+                                                                        {/* Hotel Management */}
+                                                                        <Route path="/hotel/rooms" element={<HotelRoomsPage />} />
+                                                                        <Route path="/hotel/bookings" element={<HotelBookingsPage />} />
+                                                                        <Route path="/hotel/guests" element={<HotelGuestsPage />} />
+                                                                        <Route path="/hotel/housekeeping" element={<HotelHousekeepingPage />} />
+                                                                        <Route path="/hotel/attendance" element={<StaffAttendancePage />} />
 
                                                                         {/* Inventory Routes */}
                                                                         <Route path="/inventory/products" element={<ProductsPage />} />

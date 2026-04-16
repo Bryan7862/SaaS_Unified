@@ -13,6 +13,11 @@ import { TransactionsModule } from './modules/transactions/transactions.module';
 import { PaymentsModule } from './modules/payments/payments.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { PlansModule } from './modules/plans/plans.module';
+import { HotelRoomsModule } from './modules/hotel-rooms/hotel-rooms.module';
+import { HotelBookingsModule } from './modules/hotel-bookings/hotel-bookings.module';
+import { HotelHousekeepingModule } from './modules/hotel-housekeeping/hotel-housekeeping.module';
+import { HotelGuestsModule } from './modules/hotel-guests/hotel-guests.module';
+import { HotelAttendanceModule } from './modules/hotel-attendance/hotel-attendance.module';
 
 @Module({
     imports: [
@@ -49,6 +54,11 @@ import { PlansModule } from './modules/plans/plans.module';
         PaymentsModule,
         DashboardModule,
         PlansModule,
+        HotelRoomsModule,
+        HotelBookingsModule,
+        HotelHousekeepingModule,
+        HotelGuestsModule,
+        HotelAttendanceModule,
     ],
 })
 

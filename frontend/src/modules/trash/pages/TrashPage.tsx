@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { RotateCcw, Trash2, History, X } from 'lucide-react';
 import { api } from '../../../lib/api';
+import { getArchivedFloors, getArchivedRooms, restoreFloor, restoreRoom } from '../../hotel-rooms/api';
 import { notify } from '../../../lib/notify';
 import { PageLoader } from '../../../components/ui/PageLoader';
 import { ModalPortal } from '../../../components/ui/ModalPortal';
@@ -8,8 +9,10 @@ import { ModalPortal } from '../../../components/ui/ModalPortal';
 export const TrashPage = () => {
     const [users, setUsers] = useState<any[]>([]);
     const [orgs, setOrgs] = useState<any[]>([]);
+    const [floors, setFloors] = useState<any[]>([]);
+    const [rooms, setRooms] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
-    const [activeTab, setActiveTab] = useState<'users' | 'orgs'>('users');
+    const [activeTab, setActiveTab] = useState<'users' | 'orgs' | 'floors' | 'rooms'>('users');
     const [auditLogs, setAuditLogs] = useState<any[]>([]);
     const [showAudit, setShowAudit] = useState(false);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState<{ id: string, type: 'user' | 'org' } | null>(null);
@@ -17,12 +20,16 @@ export const TrashPage = () => {
     const loadTrash = async () => {
         setLoading(true);
         try {
-            const [usersRes, orgsRes] = await Promise.all([
+            const [usersRes, orgsRes, floorsData, roomsData] = await Promise.all([
                 api.get('/trash/users'),
-                api.get('/trash/organizations')
+                api.get('/trash/organizations'),
+                getArchivedFloors(),
+                getArchivedRooms()
             ]);
             setUsers(usersRes.data);
             setOrgs(orgsRes.data);
+            setFloors(floorsData);
+            setRooms(roomsData);
         } catch (error) {
             console.error('Failed to load trash', error);
         } finally {
@@ -34,12 +41,19 @@ export const TrashPage = () => {
         loadTrash();
     }, []);
 
-    const handleRestore = async (id: string, type: 'user' | 'org') => {
+    const handleRestore = async (id: string, type: 'user' | 'org' | 'floor' | 'room') => {
         try {
+            const promisePayload = (() => {
+                switch (type) {
+                    case 'user': return api.post(`/trash/users/${id}/restore`);
+                    case 'org': return api.post(`/trash/organizations/${id}/restore`);
+                    case 'floor': return restoreFloor(id);
+                    case 'room': return restoreRoom(id);
+                }
+            })();
+
             await notify.promise(
-                type === 'user'
-                    ? api.post(`/trash/users/${id}/restore`)
-                    : api.post(`/trash/organizations/${id}/restore`),
+                promisePayload,
                 {
                     loading: 'Restaurando...',
                     success: '¡Elemento restaurado!',
@@ -124,6 +138,18 @@ export const TrashPage = () => {
                     className={`px-4 py-2 text-sm font-medium ${activeTab === 'orgs' ? 'border-b-2 border-[var(--primary)] text-[var(--primary)]' : 'text-[var(--muted)] hover:text-[var(--text)]'}`}
                 >
                     Organizaciones Suspendidas
+                </button>
+                <button
+                    onClick={() => setActiveTab('floors')}
+                    className={`px-4 py-2 text-sm font-medium ${activeTab === 'floors' ? 'border-b-2 border-[var(--primary)] text-[var(--primary)]' : 'text-[var(--muted)] hover:text-[var(--text)]'}`}
+                >
+                    Pisos Archivados
+                </button>
+                <button
+                    onClick={() => setActiveTab('rooms')}
+                    className={`px-4 py-2 text-sm font-medium ${activeTab === 'rooms' ? 'border-b-2 border-[var(--primary)] text-[var(--primary)]' : 'text-[var(--muted)] hover:text-[var(--text)]'}`}
+                >
+                    Habitaciones Archivadas
                 </button>
             </div>
 
@@ -218,13 +244,68 @@ export const TrashPage = () => {
                                         )
                                     })}
 
-                                    {((activeTab === 'users' && users.length === 0) || (activeTab === 'orgs' && orgs.length === 0)) && (
-                                        <tr>
-                                            <td colSpan={4} className="px-6 py-8 text-center text-[var(--muted)]">
-                                                No se encontraron elementos suspendidos
+                                    {activeTab === 'floors' && floors.map((floor) => (
+                                        <tr key={floor.id}>
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                <div className="text-sm font-medium text-[var(--text)]">Piso {floor.number}</div>
+                                                <div className="text-sm text-[var(--muted)]">{floor.description || 'Sin descripción'}</div>
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                                    ARCHIVADO
+                                                </span>
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--muted)]">
+                                                {floor.deletedAt ? new Date(floor.deletedAt).toLocaleString() : '-'}
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex justify-end gap-3">
+                                                <button
+                                                    onClick={() => handleRestore(floor.id, 'floor')}
+                                                    className="text-[var(--primary)] hover:opacity-80 flex items-center gap-1"
+                                                >
+                                                    <RotateCcw size={16} /> Restaurar
+                                                </button>
                                             </td>
                                         </tr>
-                                    )}
+                                    ))}
+
+                                    {activeTab === 'rooms' && rooms.map((room) => (
+                                        <tr key={room.id}>
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                <div className="text-sm font-medium text-[var(--text)]">Habitación {room.number}</div>
+                                                <div className="text-sm text-[var(--muted)]">
+                                                    {room.floor ? `Piso ${room.floor.number}` : 'Sin piso'}
+                                                </div>
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-indigo-50 text-indigo-700">
+                                                    {room.category?.name || 'Estándar'}
+                                                </span>
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--muted)]">
+                                                {room.deletedAt ? new Date(room.deletedAt).toLocaleString() : '-'}
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex justify-end gap-3">
+                                                <button
+                                                    onClick={() => handleRestore(room.id, 'room')}
+                                                    className="text-[var(--primary)] hover:opacity-80 flex items-center gap-1"
+                                                >
+                                                    <RotateCcw size={16} /> Restaurar
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+
+                                    {((activeTab === 'users' && users.length === 0) ||
+                                        (activeTab === 'orgs' && orgs.length === 0) ||
+                                        (activeTab === 'floors' && floors.length === 0) ||
+                                        (activeTab === 'rooms' && rooms.length === 0)) && (
+                                            <tr>
+                                                <td colSpan={4} className="px-6 py-8 text-center text-[var(--muted)]">
+                                                    No se encontraron elementos suspendidos o archivados
+                                                </td>
+                                            </tr>
+                                        )}
                                 </tbody>
                             </table>
                         </div>
