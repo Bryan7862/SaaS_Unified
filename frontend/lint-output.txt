@@ -1,0 +1,225 @@
+
+> saas-frontend@0.0.0 lint
+> eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0
+
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\components\ui\NotificationBell.tsx
+  36:9   error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\components\ui\NotificationBell.tsx:36:9
+  34 |
+  35 |     useEffect(() => {
+> 36 |         loadNotifications();
+     |         ^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  37 |
+  38 |         // Listen for new notifications to refresh list
+  39 |         if (socket) {  react-hooks/set-state-in-effect
+  69:18  error  'error' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             @typescript-eslint/no-unused-vars
+  80:18  error  'error' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             @typescript-eslint/no-unused-vars
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\context\SocketContext.tsx
+  46:49  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         @typescript-eslint/no-explicit-any
+  71:9   error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\context\SocketContext.tsx:71:9
+  69 |         });
+  70 |
+> 71 |         setSocket(newSocket);
+     |         ^^^^^^^^^ Avoid calling setState() directly within an effect
+  72 |
+  73 |         return () => {
+  74 |             newSocket.disconnect();  react-hooks/set-state-in-effect
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\lib\export.ts
+  1:35  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\lib\exportUtils.ts
+   11:22  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   17:54  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  154:58  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\modules\audit\supabaseApi.ts
+  10:30  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  59:30  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\modules\auth\pages\LoginPage.tsx
+  44:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\modules\auth\pages\ResetPasswordPage.tsx
+  48:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\modules\auth\pages\VerifyEmailPage.tsx
+  24:8   warning  React Hook useEffect has a missing dependency: 'verifyToken'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  32:23  error    Unexpected any. Specify a different type                                                                        @typescript-eslint/no-explicit-any
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\modules\billing\pages\PaymentMethodsPage.tsx
+  13:31  error    Unexpected any. Specify a different type                                                                        @typescript-eslint/no-explicit-any
+  31:8   warning  React Hook useEffect has a missing dependency: 'loadMethods'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  66:18  error    'error' is defined but never used                                                                               @typescript-eslint/no-unused-vars
+  75:66  error    Unexpected any. Specify a different type                                                                        @typescript-eslint/no-explicit-any
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\modules\dashboard\pages\DashboardPage.tsx
+  32:59  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  33:44  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  52:18  error  'error' is defined but never used         @typescript-eslint/no-unused-vars
+  75:26  error  'e' is defined but never used             @typescript-eslint/no-unused-vars
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\modules\hotel-attendance\pages\StaffAttendancePage.tsx
+  45:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\modules\hotel-bookings\api.ts
+   5:42  error  '_startDate' is defined but never used  @typescript-eslint/no-unused-vars
+   5:62  error  '_endDate' is defined but never used    @typescript-eslint/no-unused-vars
+  32:40  error  '_dni' is defined but never used        @typescript-eslint/no-unused-vars
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\modules\hotel-bookings\pages\HotelBookingsPage.tsx
+   71:8   warning  React Hook useEffect has a missing dependency: 'loadRack'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  169:40  error    Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
+  210:18  error    'error' is defined but never used                                                                            @typescript-eslint/no-unused-vars
+  225:18  error    'error' is defined but never used                                                                            @typescript-eslint/no-unused-vars
+  237:18  error    'error' is defined but never used                                                                            @typescript-eslint/no-unused-vars
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\modules\hotel-guests\components\GuestModal.tsx
+  10:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  71:18  error  'error' is defined but never used         @typescript-eslint/no-unused-vars
+  89:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\modules\hotel-rooms\pages\HotelRoomsPage.tsx
+   11:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   12:50  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   13:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   55:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   76:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   95:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  115:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\modules\iam\components\CreateRoleModal.tsx
+  37:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\modules\iam\components\EditRoleModal.tsx
+  10:11  error    Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
+  15:58  error    Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
+  23:8   warning  React Hook useEffect has a missing dependency: 'loadData'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  37:63  error    Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\modules\iam\components\EditUserRoleModal.tsx
+  21:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  66:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  76:32  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  81:39  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\modules\iam\components\ManageRolesModal.tsx
+  22:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  27:52  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  45:39  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  53:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\modules\iam\components\RolePermissionsSelector.tsx
+  55:9  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\modules\iam\components\RolePermissionsSelector.tsx:55:9
+  53 |             g[p.resource].push(p);
+  54 |         });
+> 55 |         setGrouped(g);
+     |         ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  56 |     }, [allPermissions]);
+  57 |
+  58 |     const togglePermission = (id: string) => {  react-hooks/set-state-in-effect
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\modules\iam\pages\UsersPage.tsx
+   12:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   20:54  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   60:28  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   72:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   83:36  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  229:71  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  271:76  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\modules\inventory\pages\CategoriesPage.tsx
+  47:18  error  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\modules\inventory\pages\ProductsPage.tsx
+  48:18  error  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\modules\inventory\pages\StockAdjustmentsPage.tsx
+  38:18  error  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\modules\organizations\pages\OrganizationSettingsPage.tsx
+  15:46  error    Unexpected any. Specify a different type                                                                         @typescript-eslint/no-explicit-any
+  22:8   warning  React Hook useEffect has a missing dependency: 'loadSettings'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\modules\organizations\pages\OrganizationsPage.tsx
+  23:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  30:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  64:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\modules\reports\pages\InventoryReportPage.tsx
+  11:56  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\modules\sales\pages\ReturnsPage.tsx
+  48:8  warning  React Hook useEffect has a missing dependency: 'loadReturns'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\modules\sales\pages\SalesHistoryPage.tsx
+  36:8  warning  React Hook useEffect has a missing dependency: 'loadSales'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\modules\subscriptions\pages\PricingPage.tsx
+   35:16  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  117:33  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\modules\transactions\pages\TransactionsPage.tsx
+   7:54  error    Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+   8:44  error    Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+  21:27  error    Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+  28:18  error    'error' is defined but never used                                                                                    @typescript-eslint/no-unused-vars
+  39:18  error    'error' is defined but never used                                                                                    @typescript-eslint/no-unused-vars
+  46:8   warning  React Hook useEffect has a missing dependency: 'loadTransactions'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  50:8   warning  React Hook useEffect has a missing dependency: 'loadSummary'. Either include it or remove the dependency array       react-hooks/exhaustive-deps
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\modules\trash\pages\TrashPage.tsx
+   10:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   11:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   12:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   13:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   16:48  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  105:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\pages\BillingPage.tsx
+  79:50  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\pages\DashboardPage.tsx
+  203:8   warning  React Hook useEffect has a missing dependency: 'loadData'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  230:29  error    Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
+  255:29  error    Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
+  280:29  error    Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
+  696:62  error    Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
+  727:58  error    Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\pages\ProfilePage.tsx
+  266:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\pages\RegisterPage.tsx
+  26:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\junio\Documents\SaaS_Unified\frontend\src\pages\SettingsPage.tsx
+  37:8  warning  React Hook useEffect has a missing dependency: 'loadSettings'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+✖ 99 problems (88 errors, 11 warnings)
+

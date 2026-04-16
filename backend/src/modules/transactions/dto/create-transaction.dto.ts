@@ -1,25 +1,31 @@
-import { IsString, IsNumber, IsEnum, IsDateString, IsOptional, IsNotEmpty, Min } from 'class-validator';
-import { Type, Transform } from 'class-transformer';
+import {
+  IsString,
+  IsNumber,
+  IsEnum,
+  IsOptional,
+  IsNotEmpty,
+  Min,
+} from "class-validator";
+import { Type, Transform } from "class-transformer";
 
 export class CreateTransactionDto {
-    @IsString()
-    date: string;
+  @IsString()
+  date: string;
 
-    @IsEnum(['ingreso', 'gasto', 'REFUND'])
-    type: 'ingreso' | 'gasto' | 'REFUND';
+  @IsEnum(["ingreso", "gasto", "REFUND"])
+  type: "ingreso" | "gasto" | "REFUND";
 
-    @Type(() => Number)
-    @IsNumber()
-    @Min(0.01)
-    @IsNotEmpty()
-    amount: number;
+  @Type(() => Number)
+  @IsNumber()
+  @Min(0.01)
+  @IsNotEmpty()
+  amount: number;
 
-    @Transform(({ value }) => value || 'Sin descripción')
-    @IsString()
-    description: string;
+  @Transform(({ value }) => value || "Sin descripción")
+  @IsString()
+  description: string;
 
-    @IsOptional()
-    @IsString()
-    category?: string;
+  @IsOptional()
+  @IsString()
+  category?: string;
 }
-

@@ -1,28 +1,34 @@
-import { IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
-import { NotificationType } from '../entities/notification.entity';
+import {
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUUID,
+} from "class-validator";
+import { NotificationType } from "../entities/notification.entity";
 
 export class CreateNotificationDto {
-    @IsUUID()
-    @IsNotEmpty()
-    userId: string;
+  @IsUUID()
+  @IsNotEmpty()
+  userId: string;
 
-    @IsUUID()
-    @IsOptional()
-    orgId?: string;
+  @IsUUID()
+  @IsOptional()
+  orgId?: string;
 
-    @IsEnum(NotificationType)
-    @IsOptional()
-    type?: NotificationType;
+  @IsEnum(NotificationType)
+  @IsOptional()
+  type?: NotificationType;
 
-    @IsString()
-    @IsNotEmpty()
-    title: string;
+  @IsString()
+  @IsNotEmpty()
+  title: string;
 
-    @IsString()
-    @IsString()
-    @IsNotEmpty()
-    message: string;
+  @IsString()
+  @IsString()
+  @IsNotEmpty()
+  message: string;
 
-    @IsOptional()
-    triggeredBy?: string; // ID of the user who triggered this notification
+  @IsOptional()
+  triggeredBy?: string; // ID of the user who triggered this notification
 }

@@ -1,28 +1,34 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from "typeorm";
 
 export enum CompanyStatus {
-    ACTIVE = 'ACTIVE',
-    INACTIVE = 'INACTIVE',
-    SUSPENDED = 'SUSPENDED',
+  ACTIVE = "ACTIVE",
+  INACTIVE = "INACTIVE",
+  SUSPENDED = "SUSPENDED",
 }
 
-@Entity('empresas')
+@Entity("empresas")
 export class Company {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
-    @Column()
-    name: string;
+  @Column()
+  name: string;
 
-    @Column({ unique: true, nullable: true })
-    slug: string;
+  @Column({ unique: true, nullable: true })
+  slug: string;
 
-    @Column({ type: 'enum', enum: CompanyStatus, default: CompanyStatus.ACTIVE })
-    status: CompanyStatus;
+  @Column({ type: "enum", enum: CompanyStatus, default: CompanyStatus.ACTIVE })
+  status: CompanyStatus;
 
-    @CreateDateColumn({ name: 'created_at' })
-    createdAt: Date;
+  @CreateDateColumn({ name: "created_at" })
+  createdAt: Date;
 
-    @UpdateDateColumn({ name: 'updated_at' })
-    updatedAt: Date;
+  @UpdateDateColumn({ name: "updated_at" })
+  updatedAt: Date;
 }

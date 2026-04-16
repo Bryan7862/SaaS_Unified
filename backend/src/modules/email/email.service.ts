@@ -1,19 +1,22 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger } from "@nestjs/common";
 
 @Injectable()
 export class EmailService {
-    private readonly logger = new Logger(EmailService.name);
+  private readonly logger = new Logger(EmailService.name);
 
-    /**
-     * Sends a password reset email.
-     * TODO: Integrate with a real email provider (Resend, SendGrid, AWS SES)
-     * For now, this logs the reset link to console.
-     */
-    async sendPasswordResetEmail(email: string, resetToken: string): Promise<void> {
-        // TODO: Replace with actual email sending logic
-        const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/reset-password?token=${resetToken}`;
+  /**
+   * Sends a password reset email.
+   * TODO: Integrate with a real email provider (Resend, SendGrid, AWS SES)
+   * For now, this logs the reset link to console.
+   */
+  async sendPasswordResetEmail(
+    email: string,
+    resetToken: string,
+  ): Promise<void> {
+    // TODO: Replace with actual email sending logic
+    const resetUrl = `${process.env.FRONTEND_URL || "http://localhost:5173"}/reset-password?token=${resetToken}`;
 
-        this.logger.log(`
+    this.logger.log(`
 ========================================
 PASSWORD RESET EMAIL (DEV MODE)
 ========================================
@@ -36,20 +39,20 @@ Tu equipo de soporte
 ========================================
         `);
 
-        // When ready for production, use something like:
-        // await this.resend.emails.send({
-        //     from: 'noreply@tuapp.com',
-        //     to: email,
-        //     subject: 'Recuperar contraseña',
-        //     html: `<a href="${resetUrl}">Click aquí para restablecer tu contraseña</a>`
-        // });
-    }
+    // When ready for production, use something like:
+    // await this.resend.emails.send({
+    //     from: 'noreply@tuapp.com',
+    //     to: email,
+    //     subject: 'Recuperar contraseña',
+    //     html: `<a href="${resetUrl}">Click aquí para restablecer tu contraseña</a>`
+    // });
+  }
 
-    /**
-     * Sends a welcome email after registration.
-     */
-    async sendWelcomeEmail(email: string, name: string): Promise<void> {
-        this.logger.log(`
+  /**
+   * Sends a welcome email after registration.
+   */
+  async sendWelcomeEmail(email: string, name: string): Promise<void> {
+    this.logger.log(`
 ========================================
 WELCOME EMAIL (DEV MODE)
 ========================================
@@ -64,13 +67,18 @@ Saludos,
 Tu equipo
 ========================================
         `);
-    }
+  }
 
-    /**
-     * Sends a stock alert email.
-     */
-    async sendStockAlertEmail(email: string, productName: string, currentStock: number, minStock: number): Promise<void> {
-        this.logger.log(`
+  /**
+   * Sends a stock alert email.
+   */
+  async sendStockAlertEmail(
+    email: string,
+    productName: string,
+    currentStock: number,
+    minStock: number,
+  ): Promise<void> {
+    this.logger.log(`
 ========================================
 STOCK ALERT EMAIL (DEV MODE)
 ========================================
@@ -84,15 +92,19 @@ El producto "${productName}" tiene stock bajo:
 Por favor, reabastece pronto.
 ========================================
         `);
-    }
+  }
 
-    /**
-     * Sends an email verification link.
-     */
-    async sendVerificationEmail(email: string, name: string, verificationToken: string): Promise<void> {
-        const verifyUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/verify-email?token=${verificationToken}`;
+  /**
+   * Sends an email verification link.
+   */
+  async sendVerificationEmail(
+    email: string,
+    name: string,
+    verificationToken: string,
+  ): Promise<void> {
+    const verifyUrl = `${process.env.FRONTEND_URL || "http://localhost:5173"}/verify-email?token=${verificationToken}`;
 
-        this.logger.log(`
+    this.logger.log(`
 ========================================
 VERIFICATION EMAIL (DEV MODE)
 ========================================
@@ -111,5 +123,5 @@ Saludos,
 Tu equipo
 ========================================
         `);
-    }
+  }
 }

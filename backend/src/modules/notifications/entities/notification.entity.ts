@@ -1,39 +1,44 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+} from "typeorm";
 
 export enum NotificationType {
-    INFO = 'INFO',
-    SUCCESS = 'SUCCESS',
-    WARNING = 'WARNING',
-    ERROR = 'ERROR',
+  INFO = "INFO",
+  SUCCESS = "SUCCESS",
+  WARNING = "WARNING",
+  ERROR = "ERROR",
 }
 
-@Entity('notifications')
+@Entity("notifications")
 export class Notification {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
-    @Column()
-    userId: string;
+  @Column()
+  userId: string;
 
-    @Column({ nullable: true })
-    orgId: string;
+  @Column({ nullable: true })
+  orgId: string;
 
-    @Column({
-        type: 'enum',
-        enum: NotificationType,
-        default: NotificationType.INFO
-    })
-    type: NotificationType;
+  @Column({
+    type: "enum",
+    enum: NotificationType,
+    default: NotificationType.INFO,
+  })
+  type: NotificationType;
 
-    @Column()
-    title: string;
+  @Column()
+  title: string;
 
-    @Column('text')
-    message: string;
+  @Column("text")
+  message: string;
 
-    @Column({ default: false })
-    isRead: boolean;
+  @Column({ default: false })
+  isRead: boolean;
 
-    @CreateDateColumn()
-    createdAt: Date;
+  @CreateDateColumn()
+  createdAt: Date;
 }

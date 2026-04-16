@@ -1,17 +1,24 @@
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { HotelRoomsService } from './hotel-rooms.service';
-import { HotelRoomsController } from './hotel-rooms.controller';
-import { HotelRoom } from './entities/hotel-room.entity';
-import { RoomCategory } from './entities/room-category.entity';
-import { HotelFloor } from './entities/hotel-floor.entity';
+import { Module } from "@nestjs/common";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { HotelRoomsService } from "./hotel-rooms.service";
+import { HotelRoomsController } from "./hotel-rooms.controller";
+import { HotelRoom } from "./entities/hotel-room.entity";
+import { RoomCategory } from "./entities/room-category.entity";
+import { HotelFloor } from "./entities/hotel-floor.entity";
 
-import { HotelBooking } from '../hotel-bookings/entities/hotel-booking.entity';
+import { HotelBooking } from "../hotel-bookings/entities/hotel-booking.entity";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([HotelRoom, RoomCategory, HotelFloor, HotelBooking])],
-    controllers: [HotelRoomsController],
-    providers: [HotelRoomsService],
-    exports: [HotelRoomsService],
+  imports: [
+    TypeOrmModule.forFeature([
+      HotelRoom,
+      RoomCategory,
+      HotelFloor,
+      HotelBooking,
+    ]),
+  ],
+  controllers: [HotelRoomsController],
+  providers: [HotelRoomsService],
+  exports: [HotelRoomsService],
 })
-export class HotelRoomsModule { }
+export class HotelRoomsModule {}

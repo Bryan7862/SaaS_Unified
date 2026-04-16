@@ -1,13 +1,13 @@
-import { Controller, Get } from '@nestjs/common';
-import { PlansService } from './plans.service';
-import { Plan } from './entities/plan.entity';
+import { Controller, Get } from "@nestjs/common";
+import { PlansService } from "./plans.service";
+import { Plan } from "./entities/plan.entity";
 
-@Controller('plans')
+@Controller("plans")
 export class PlansController {
-    constructor(private readonly plansService: PlansService) { }
+  constructor(private readonly plansService: PlansService) {}
 
-    @Get()
-    async findAll(): Promise<Plan[]> {
-        return this.plansService.findAll();
-    }
+  @Get()
+  async findAll(): Promise<Plan[]> {
+    return this.plansService.findAll();
+  }
 }

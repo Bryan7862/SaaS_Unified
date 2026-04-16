@@ -1,0 +1,72 @@
+
+> saas-backend@0.0.1 lint
+> eslint "{src,apps,libs,test}/**/*.ts" --fix
+
+
+C:\Users\junio\Documents\SaaS_Unified\backend\src\common\middleware\context.middleware.ts
+  26:16  error  'e' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\junio\Documents\SaaS_Unified\backend\src\modules\auth-core\entities\company.entity.ts
+  7:3  error  'OneToMany' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\junio\Documents\SaaS_Unified\backend\src\modules\auth\auth.service.ts
+  412:13  error  'currentPassword' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  412:30  error  'newPassword' is assigned a value but never used      @typescript-eslint/no-unused-vars
+
+C:\Users\junio\Documents\SaaS_Unified\backend\src\modules\dashboard\dashboard.controller.ts
+  6:3  error  'Headers' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\junio\Documents\SaaS_Unified\backend\src\modules\dashboard\dto\create-kpi.dto.ts
+  2:3  error  'IsString' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\junio\Documents\SaaS_Unified\backend\src\modules\hotel-attendance\hotel-attendance.service.ts
+  40:11  error  'existingRecord' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\junio\Documents\SaaS_Unified\backend\src\modules\hotel-bookings\hotel-bookings.service.ts
+  10:3  error  'LessThanOrEqual' is defined but never used  @typescript-eslint/no-unused-vars
+  11:3  error  'MoreThanOrEqual' is defined but never used  @typescript-eslint/no-unused-vars
+  12:3  error  'And' is defined but never used              @typescript-eslint/no-unused-vars
+
+C:\Users\junio\Documents\SaaS_Unified\backend\src\modules\hotel-guests\hotel-guests.controller.ts
+  8:3  error  'Req' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\junio\Documents\SaaS_Unified\backend\src\modules\hotel-housekeeping\hotel-housekeeping.controller.ts
+  9:3  error  'Req' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\junio\Documents\SaaS_Unified\backend\src\modules\hotel-housekeeping\hotel-housekeeping.service.ts
+  4:3  error  'BadRequestException' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\junio\Documents\SaaS_Unified\backend\src\modules\hotel-rooms\dto\create-room.dto.ts
+  6:3  error  'IsNumber' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\junio\Documents\SaaS_Unified\backend\src\modules\hotel-rooms\hotel-rooms.controller.ts
+  11:3  error  'BadRequestException' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\junio\Documents\SaaS_Unified\backend\src\modules\iam\guards\permissions.guard.ts
+  9:10  error  'IamService' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\junio\Documents\SaaS_Unified\backend\src\modules\notifications\notifications.gateway.ts
+  6:3  error  'SubscribeMessage' is defined but never used  @typescript-eslint/no-unused-vars
+  7:3  error  'ConnectedSocket' is defined but never used   @typescript-eslint/no-unused-vars
+  8:3  error  'MessageBody' is defined but never used       @typescript-eslint/no-unused-vars
+
+C:\Users\junio\Documents\SaaS_Unified\backend\src\modules\organizations\entities\company.entity.ts
+  7:3  error  'OneToMany' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\junio\Documents\SaaS_Unified\backend\src\modules\payments\payments.module.ts
+  2:10  error  'ConfigModule' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\junio\Documents\SaaS_Unified\backend\src\modules\payments\webhooks\culqi-webhook.controller.ts
+  27:33  error  'signature' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\junio\Documents\SaaS_Unified\backend\src\modules\subscriptions\subscriptions.controller.ts
+  7:3  error  'Request' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\junio\Documents\SaaS_Unified\backend\src\modules\subscriptions\subscriptions.service.ts
+  5:3  error  'OnModuleInit' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\junio\Documents\SaaS_Unified\backend\src\modules\transactions\dto\create-transaction.dto.ts
+  5:3  error  'IsDateString' is defined but never used  @typescript-eslint/no-unused-vars
+
+✖ 25 problems (25 errors, 0 warnings)
+

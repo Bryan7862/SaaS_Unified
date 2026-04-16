@@ -1,39 +1,46 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
-import { Subscription } from './subscription.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
+} from "typeorm";
+import { Subscription } from "./subscription.entity";
 
-@Entity('planes')
+@Entity("planes")
 export class Plan {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
-    @Column({ unique: true })
-    code: string; // FREE, BASIC, PRO, MAX
+  @Column({ unique: true })
+  code: string; // FREE, BASIC, PRO, MAX
 
-    @Column()
-    name: string; // Gratuito, Emprendedor, Empresarial
+  @Column()
+  name: string; // Gratuito, Emprendedor, Empresarial
 
-    @Column()
-    description: string;
+  @Column()
+  description: string;
 
-    @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
-    pricePe: number; // Price in Peru Soles
+  @Column({ type: "decimal", precision: 10, scale: 2, default: 0 })
+  pricePe: number; // Price in Peru Soles
 
-    @Column({ nullable: true })
-    culqiPlanId: string; // For future sync with Culqi
+  @Column({ nullable: true })
+  culqiPlanId: string; // For future sync with Culqi
 
-    @Column({ type: 'jsonb', default: {} })
-    features: {
-        maxUsers: number;
-        maxStorage: string;
-        canAccessAnalytics: boolean;
-    };
+  @Column({ type: "jsonb", default: {} })
+  features: {
+    maxUsers: number;
+    maxStorage: string;
+    canAccessAnalytics: boolean;
+  };
 
-    @OneToMany(() => Subscription, (subscription) => subscription.plan)
-    subscriptions: Subscription[];
+  @OneToMany(() => Subscription, (subscription) => subscription.plan)
+  subscriptions: Subscription[];
 
-    @CreateDateColumn({ name: 'created_at' })
-    createdAt: Date;
+  @CreateDateColumn({ name: "created_at" })
+  createdAt: Date;
 
-    @UpdateDateColumn({ name: 'updated_at' })
-    updatedAt: Date;
+  @UpdateDateColumn({ name: "updated_at" })
+  updatedAt: Date;
 }
