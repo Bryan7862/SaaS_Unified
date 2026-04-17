@@ -18,6 +18,10 @@ export const getCategories = async () => {
     return response.data;
 };
 
+export const createCategory = async (data: { name: string; description?: string; basePrice: number; capacity: number }) => {
+    return api.post('/hotel-rooms/categories', data);
+};
+
 export const getRooms = async () => {
     const response = await api.get('/hotel-rooms/rooms');
     return response.data;
