@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Plus, LayoutGrid, Bed, Trash2 } from 'lucide-react';
-import { getFloors, createFloor, getCategories, getRooms, createRoom, archiveFloor, archiveRoom } from '../api';
+import { getFloors, createFloor, getCategories, getRooms, createRoom, archiveFloor, archiveRoom, createCategory } from '../api';
 import { notify } from '../../../lib/notify';
 
 export const HotelRoomsPage = () => {
     // ... (Existing state initialization)
-    const [activeTab, setActiveTab] = useState<'rooms' | 'floors'>('rooms');
+    const [activeTab, setActiveTab] = useState<'rooms' | 'floors' | 'categories'>('rooms');
     const [isLoading, setIsLoading] = useState(true);
 
     const [floors, setFloors] = useState<any[]>([]);
@@ -14,9 +14,9 @@ export const HotelRoomsPage = () => {
 
     const [showRoomForm, setShowRoomForm] = useState(false);
 
-    // Form States
     const [newFloor, setNewFloor] = useState({ number: '', description: '' });
     const [newRoom, setNewRoom] = useState({ number: '', floorId: '', categoryId: '', status: 'AVAILABLE' });
+    const [newCategory, setNewCategory] = useState({ name: '', description: '', basePrice: '', capacity: '2' });
 
     useEffect(() => {
         loadData();
@@ -82,6 +82,23 @@ export const HotelRoomsPage = () => {
         }
     };
 
+    const handleCreateCategory = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            await createCategory({
+                name: newCategory.name,
+                description: newCategory.description,
+                basePrice: parseFloat(newCategory.basePrice),
+                capacity: parseInt(newCategory.capacity)
+            });
+            notify.success('Categoría creada correctamente');
+            setNewCategory({ name: '', description: '', basePrice: '', capacity: '2' });
+            loadData();
+        } catch (error) {
+            notify.error('Error al crear categoría');
+        }
+    };
+
     // ... (Existing handleCreateRoom)
 
     const handleCreateRoom = async (e: React.FormEvent) => {
@@ -137,12 +154,20 @@ export const HotelRoomsPage = () => {
             <p className="text-gray-600 max-w-md mb-6">
                 Para comenzar a registrar habitaciones, primero necesitas definir los <strong>Pisos</strong> y las <strong>Categorías</strong> de tu hotel.
             </p>
-            <button
-                onClick={() => { setActiveTab('floors'); }}
-                className="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition-colors font-medium"
-            >
-                Registrar Primer Piso
-            </button>
+            <div className="flex gap-2 justify-center">
+                <button
+                    onClick={() => { setActiveTab('floors'); }}
+                    className="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition-colors font-medium"
+                >
+                    Registrar Piso
+                </button>
+                <button
+                    onClick={() => { setActiveTab('categories'); }}
+                    className="bg-gray-200 text-black px-6 py-2 rounded-lg hover:bg-gray-300 transition-colors font-medium"
+                >
+                    Crear Categoría
+                </button>
+            </div>
         </div>
     );
 
@@ -177,6 +202,15 @@ export const HotelRoomsPage = () => {
                             }`}
                     >
                         <span className="flex items-center gap-2"><LayoutGrid size={16} /> Pisos</span>
+                    </button>
+                    <button
+                        onClick={() => setActiveTab('categories')}
+                        className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${activeTab === 'categories'
+                            ? 'bg-white text-black shadow-sm'
+                            : 'text-gray-500 hover:text-gray-800'
+                            }`}
+                    >
+                        <span className="flex items-center gap-2">Categorías</span>
                     </button>
                 </div>
             </div>
@@ -317,6 +351,84 @@ export const HotelRoomsPage = () => {
                                 </div>
                                 <button type="submit" className="w-full bg-black text-white py-2 rounded hover:bg-gray-800 font-medium">
                                     Guardar Piso
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                )}
+
+                {activeTab === 'categories' && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {/* Categories List */}
+                        <div className="bg-[var(--card-bg)] rounded-lg shadow-sm border border-[var(--border)] p-4">
+                            <h3 className="text-lg font-bold mb-4 flex items-center gap-2">Categorías Registradas</h3>
+                            <div className="space-y-3">
+                                {categories.map(cat => (
+                                    <div key={cat.id} className="flex justify-between items-center p-3 border border-gray-100 rounded bg-gray-50">
+                                        <div>
+                                            <span className="font-bold text-gray-900 block">{cat.name}</span>
+                                            <span className="text-sm text-gray-500">{cat.description || 'Sin descripción'}</span>
+                                        </div>
+                                        <div className="text-right">
+                                            <span className="font-bold text-indigo-600 block">S/ {cat.basePrice}</span>
+                                            <span className="text-xs text-gray-500">Capacidad: {cat.capacity} pax</span>
+                                        </div>
+                                    </div>
+                                ))}
+                                {categories.length === 0 && <p className="text-center text-gray-400 py-4">Sin categorías registradas</p>}
+                            </div>
+                        </div>
+
+                        {/* Create Category Form */}
+                        <div className="bg-[var(--card-bg)] rounded-lg shadow-sm border border-[var(--border)] p-6 h-fit">
+                            <h3 className="text-lg font-bold mb-4">Nueva Categoría</h3>
+                            <form onSubmit={handleCreateCategory} className="space-y-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+                                    <input
+                                        type="text"
+                                        required
+                                        className="w-full border border-gray-300 rounded px-3 py-2"
+                                        placeholder="Ej. Matrimonial VIP"
+                                        value={newCategory.name}
+                                        onChange={e => setNewCategory({ ...newCategory, name: e.target.value })}
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
+                                    <input
+                                        type="text"
+                                        className="w-full border border-gray-300 rounded px-3 py-2"
+                                        placeholder="Características, vista, etc."
+                                        value={newCategory.description}
+                                        onChange={e => setNewCategory({ ...newCategory, description: e.target.value })}
+                                    />
+                                </div>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Precio Base (S/)</label>
+                                        <input
+                                            type="number"
+                                            step="0.01"
+                                            required
+                                            className="w-full border border-gray-300 rounded px-3 py-2"
+                                            value={newCategory.basePrice}
+                                            onChange={e => setNewCategory({ ...newCategory, basePrice: e.target.value })}
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Capacidad (Pax)</label>
+                                        <input
+                                            type="number"
+                                            required
+                                            className="w-full border border-gray-300 rounded px-3 py-2"
+                                            value={newCategory.capacity}
+                                            onChange={e => setNewCategory({ ...newCategory, capacity: e.target.value })}
+                                        />
+                                    </div>
+                                </div>
+                                <button type="submit" className="w-full bg-black text-white py-2 rounded hover:bg-gray-800 font-medium">
+                                    Guardar Categoría
                                 </button>
                             </form>
                         </div>
