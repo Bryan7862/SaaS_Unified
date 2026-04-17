@@ -15,6 +15,7 @@ import {
 } from "../hotel-bookings/entities/hotel-booking.entity";
 import { CreateRoomDto } from "./dto/create-room.dto";
 import { CreateFloorDto } from "./dto/create-floor.dto";
+import { CreateCategoryDto } from "./dto/create-category.dto";
 
 import { NotificationsService } from "../notifications/notifications.service";
 import { NotificationType } from "../notifications/entities/notification.entity";
@@ -86,6 +87,14 @@ export class HotelRoomsService {
   }
 
   // --- ROOM CATEGORIES ---
+
+  async createCategoryForOrganization(companyId: string, dto: CreateCategoryDto): Promise<RoomCategory> {
+    const category = this.categoryRepository.create({
+      ...dto,
+      companyId,
+    });
+    return this.categoryRepository.save(category);
+  }
 
   async listAllCategoriesByCompany(companyId: string): Promise<RoomCategory[]> {
     return this.categoryRepository.find({
