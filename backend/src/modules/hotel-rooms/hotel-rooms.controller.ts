@@ -8,10 +8,12 @@ import {
   Delete,
   UseGuards,
   Request,
+  BadRequestException,
 } from "@nestjs/common";
 import { HotelRoomsService } from "./hotel-rooms.service";
 import { CreateRoomDto } from "./dto/create-room.dto";
 import { CreateFloorDto } from "./dto/create-floor.dto";
+import { CreateCategoryDto } from "./dto/create-category.dto";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard"; // Assuming this exists or standard path
 import { ActiveCompanyId } from "../../common/decorators/active-company-id.decorator";
 
@@ -57,6 +59,17 @@ export class HotelRoomsController {
   @Get("categories")
   async listCategories(@ActiveCompanyId() companyId: string) {
     return this.hotelRoomsService.listAllCategoriesByCompany(companyId);
+  }
+
+  @Post("categories")
+  async createCategory(
+    @ActiveCompanyId() companyId: string,
+    @Body() createCategoryDto: CreateCategoryDto,
+  ) {
+    return this.hotelRoomsService.createCategoryForOrganization(
+      companyId,
+      createCategoryDto,
+    );
   }
 
   @Post("rooms")
